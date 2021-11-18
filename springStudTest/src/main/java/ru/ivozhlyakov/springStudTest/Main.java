@@ -15,17 +15,10 @@ public class Main {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
         QuestionService questionService = context.getBean(QuestionService.class);
 
-        Resource resourse = context.getResource("classpath:simpleTesForTheVerbTO_BE.csv");
-        try {
-            questionService.loadQuestionList(resourse.getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        questionService.setResource(context.getResource("classpath:simpleTesForTheVerbTO_BE.csv"));
+        questionService.loadQuestionList();
+        questionService.print();
 
-        for (Question question : questionService.getQuestionList()){
-            System.out.println(question.toString());
-
-        }
         context.close();
 	}
 

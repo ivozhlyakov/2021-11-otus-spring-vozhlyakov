@@ -28,14 +28,4 @@ public class Question {
         this.answerList.add(new Answer(answer, isCorrect));
     }
 
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder(getValue());
-        int i = 1;
-        for (Answer answer : getAnswerList()) {
-            builder.append("\n").append(i).append(". ").append(answer.getValue());
-            i+=1;
-        }
-        return builder.toString();
-    }
 }
