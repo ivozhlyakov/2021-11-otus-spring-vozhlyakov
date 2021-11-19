@@ -17,7 +17,6 @@ import java.util.Scanner;
 public class QuestionService {
 
     private QuestionDAO questionDAO;
-    private TestResult testResult;
 
     @Value("${result.pass}")
     private String pass;
@@ -38,44 +37,42 @@ public class QuestionService {
     }
 
     public void test() {
-        this.testResult = new TestResult();
+        TestResult testResult = new TestResult();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your family name: ");
-        this.testResult.setFamilyName(scanner.next());
+        testResult.setFamilyName(scanner.next());
 
         System.out.print("Enter your name: ");
-        this.testResult.setName(scanner.next());
+        testResult.setName(scanner.next());
+        scanner.nextLine();
+        System.out.print("\nTest:\n");
         for (Question question : getQuestionList()) {
             StringBuilder builder = new StringBuilder(question.getValue());
-            int i = 1;
+
             builder.append("\n");
             for (Answer answer : question.getAnswerList()) {
-                builder.append(i).append(". ").append(answer.getValue()).append("    ");
-                i += 1;
+                builder.append(" ").append(answer.getValue()).append("    ");
             }
             System.out.println(builder.toString());
-            String answer = scanner.next();
+            String answer = scanner.nextLine();
 
             if (answer != null
                     && question.getAnswerList()
                     .stream()
-                    .filter(a -> a.isCorrect())
-                    .findAny().get()
+                    .filter(a -> Boolean.TRUE.equals(a.isCorrect()))
+                    .findAny().orElse(new Answer("", false))
                     .getValue().equals(answer))
             {
-                this.testResult.addCorrectAnswer();
+                testResult.addCorrectAnswer();
             }
         }
 
-        checkResult();
-    }
-
-    private void checkResult() {
         String result = failed;
         if (testResult.getCorrectAnswerCount()
                 .compareTo(getCountToPassExam()) > -1){
-         result = pass;
+            result = pass;
         }
-        System.out.println(result);
+        System.out.println("\n"+result);
     }
+
 }
