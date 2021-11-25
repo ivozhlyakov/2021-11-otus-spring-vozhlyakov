@@ -26,7 +26,7 @@ public class QuestionDAO {
     public QuestionDAO(@Value("${file.name}") String fileName, @Value("${passExam.count}") Integer countToPassExam)  {
         this.filePath = fileName;
         this.countToPassExam = countToPassExam;
-        loadObjectList();
+        this.questionList = new LinkedList<>();
     }
 
     public String getFilePath() {
@@ -41,15 +41,14 @@ public class QuestionDAO {
         return questionList;
     }
 
-    private void setQuestionToList(Question question) {
+    public void setQuestionToList(Question question) {
         this.questionList.add(question);
     }
 
-    public void loadObjectList() {
+    public void loadQuestionList() {
         try {
             Resource resource = new ClassPathResource(getFilePath());
             InputStream inputStream = resource.getInputStream();
-            this.questionList = new LinkedList<>();
             Scanner scanner = new Scanner(inputStream);
             while (scanner.hasNextLine()) {
                 String[] columns = scanner.nextLine().split(";");

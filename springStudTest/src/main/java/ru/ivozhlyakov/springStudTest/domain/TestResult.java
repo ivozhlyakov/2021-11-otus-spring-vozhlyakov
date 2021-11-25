@@ -1,16 +1,16 @@
 package ru.ivozhlyakov.springStudTest.domain;
 
 public class TestResult {
-    private String familyName;
+    private String surname;
     private String name;
     private Integer correctAnswerCount = 0;
 
-    public String getFamilyName() {
-        return familyName;
+    public String getSurmame() {
+        return surname;
     }
 
-    public void setFamilyName(String familyName) {
-        this.familyName = familyName;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getName() {
