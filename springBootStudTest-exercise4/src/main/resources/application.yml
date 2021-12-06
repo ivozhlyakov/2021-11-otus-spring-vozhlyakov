@@ -5,4 +5,4 @@ test-config:
 
 spring:
   messages:
-    basename: bundles/messages
+    basename: i18n/messages

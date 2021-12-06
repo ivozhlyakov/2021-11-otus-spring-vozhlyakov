@@ -23,6 +23,14 @@ public class QuestionService {
 
     private QuestionDAO questionDAO;
 
+    private String locale;
+
+    public void setLocale(String locale) {
+        this.locale = "en_EN";
+        if (locale.equals("ru")){
+            this.locale = "ru-RU";
+        }
+    }
 
     private final String testCommentResultPass = "result.pass";
 
@@ -33,7 +41,7 @@ public class QuestionService {
     }
 
     public List<Question> getQuestionList(){
-       return questionDAO.getQuestionList();
+       return questionDAO.getQuestionList(locale);
    }
 
     private Integer getCountToPassExam(){
@@ -41,7 +49,7 @@ public class QuestionService {
     }
 
     private void loadObjectList(){
-        questionDAO.loadQuestionList();
+        questionDAO.loadQuestionList(locale);
     }
 
     public void test() {
@@ -49,17 +57,17 @@ public class QuestionService {
         TestResult testResult = new TestResult();
         Scanner scanner = new Scanner(System.in);
         System.out.print(
-                messageSource.getMessage("enter.surname",null, Locale.getDefault())
+                messageSource.getMessage("enter.surname",null, Locale.forLanguageTag(locale))
         );
         testResult.setSurname(scanner.next());
 
         System.out.print(
-                messageSource.getMessage("enter.name",null, Locale.getDefault())
+                messageSource.getMessage("enter.name",null, Locale.forLanguageTag(locale))
         );
         testResult.setName(scanner.next());
         scanner.nextLine();
         System.out.print("\n"
-                .concat(messageSource.getMessage("test.title",null, Locale.getDefault())
+                .concat(messageSource.getMessage("test.title",null, Locale.forLanguageTag(locale))
                         .concat(" \n")));
         for (Question question : getQuestionList()) {
             StringBuilder builder = new StringBuilder(question.getValue());
@@ -82,14 +90,14 @@ public class QuestionService {
             }
         }
 
-        String result = messageSource.getMessage(testCommentResultFailed, null, Locale.getDefault());
+        String result = messageSource.getMessage(testCommentResultFailed, null, Locale.forLanguageTag(locale));
         if (testResult.getCorrectAnswerCount()
                 .compareTo(getCountToPassExam()) > -1){
-            result = messageSource.getMessage(testCommentResultPass, null, Locale.getDefault());
+            result = messageSource.getMessage(testCommentResultPass, null, Locale.forLanguageTag(locale));
         }
         String[] strings = {result};
 
-        System.out.println(messageSource.getMessage("test.ending", strings, Locale.getDefault()));
+        System.out.println(messageSource.getMessage("test.ending", strings, Locale.forLanguageTag(locale)));
     }
 
 }

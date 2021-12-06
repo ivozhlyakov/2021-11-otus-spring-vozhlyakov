@@ -19,6 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @EnableConfigurationProperties
 class QuestionDAOTest {
 
+    private final String locale = "ru-RU";
+
     @Autowired
     private TestConfig config;
 
@@ -45,7 +47,7 @@ class QuestionDAOTest {
     @Test
     void getQuestionList() {
         QuestionDAO questionDAO = newQuestionDAO();
-        assertThat(questionDAO.getQuestionList())
+        assertThat(questionDAO.getQuestionList(locale))
                 .isNotNull();
     }
 
@@ -53,10 +55,10 @@ class QuestionDAOTest {
     @Test
     void setQuestionToList() {
         QuestionDAO questionDAO = newQuestionDAO();
-        int beforeSize = questionDAO.getQuestionList().size();
+        int beforeSize = questionDAO.getQuestionList(locale).size();
 
-        questionDAO.setQuestionToList(new Question());
-        assertThat(questionDAO.getQuestionList().size())
+        questionDAO.setQuestionToList(locale, new Question());
+        assertThat(questionDAO.getQuestionList(locale).size())
                 .isEqualTo(beforeSize + 1);
     }
 
@@ -64,13 +66,13 @@ class QuestionDAOTest {
     @Test
     void loadQuestionList() {
         QuestionDAO questionDAO = newQuestionDAO();
-        int beforeSize = questionDAO.getQuestionList().size();
+        int beforeSize = questionDAO.getQuestionList(locale).size();
 
-        questionDAO.loadQuestionList();
+        questionDAO.loadQuestionList(locale);
 
-        assertThat(questionDAO.getQuestionList())
+        assertThat(questionDAO.getQuestionList(locale))
                 .isNotNull();
-        assertThat(questionDAO.getQuestionList().size())
+        assertThat(questionDAO.getQuestionList(locale).size())
                 .isEqualTo(beforeSize + 1);
 
     }

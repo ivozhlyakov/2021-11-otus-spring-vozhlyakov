@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.DelegatingMessageSource;
 import org.springframework.test.context.ActiveProfiles;
+import ru.ivozhlyakov.springBootStudTest.CliAppRunner;
 import ru.ivozhlyakov.springBootStudTest.dao.QuestionDAO;
 import ru.ivozhlyakov.springBootStudTest.domain.Question;
 
@@ -28,8 +29,10 @@ import static org.mockito.Mockito.when;
 
 @DisplayName("Класс QuestionService")
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
+@SpringBootTest(classes = CliAppRunner.class)
 class QuestionServiceTest {
+
+    private final String locale = "ru-RU";
 
     @Mock
     private MessageSource messageSource;
@@ -60,7 +63,8 @@ class QuestionServiceTest {
         question.setValue("question");
         question.setAnswer("answer", true);
 
-        when(questionDAO.getQuestionList()).thenReturn(Collections.singletonList(question));
+        questionService.setLocale(locale);
+        when(questionService.getQuestionList()).thenReturn(Collections.singletonList(question));
 
         questionService.test();
     }

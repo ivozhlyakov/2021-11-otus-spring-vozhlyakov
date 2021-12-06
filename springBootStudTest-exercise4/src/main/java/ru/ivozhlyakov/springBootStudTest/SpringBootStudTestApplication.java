@@ -9,10 +9,11 @@ import ru.ivozhlyakov.springBootStudTest.service.QuestionService;
 public class SpringBootStudTestApplication {
 
 	public static void main(String[] args) {
-	    ApplicationContext context = SpringApplication.run(SpringBootStudTestApplication.class, args);
+        SpringApplication.run(SpringBootStudTestApplication.class, args);
+	    /*ApplicationContext context = SpringApplication.run(SpringBootStudTestApplication.class, args);
         QuestionService questionService = context.getBean(QuestionService.class);
 
-        questionService.test();
+        questionService.test();*/
 
 	}
 
