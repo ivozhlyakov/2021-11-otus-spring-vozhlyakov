@@ -1,53 +1,67 @@
 package ru.ivozhlyakov.springStudTest.dao;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 import ru.ivozhlyakov.springStudTest.domain.Question;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
 
+@Component
+
 public class QuestionDAO {
 
     private List<Question> questionList;
-    private Resource resource;
 
-    public QuestionDAO() throws IOException {
+    private final String filePath;
+    private final Integer countToPassExam;
 
+    public QuestionDAO(@Value("${file.name}") String fileName, @Value("${passExam.count}") Integer countToPassExam)  {
+        this.filePath = fileName;
+        this.countToPassExam = countToPassExam;
+        this.questionList = new LinkedList<>();
     }
 
-    public void setResource(Resource resource) {
-        this.resource = resource;
+    public String getFilePath() {
+        return filePath;
     }
 
-    private InputStream getInputStream() throws IOException {
-        return resource.getInputStream();
+    public Integer getCountToPassExam() {
+        return countToPassExam;
     }
 
     public List<Question> getQuestionList() {
         return questionList;
     }
 
-    private void setQuestionToList(Question question) {
+    public void setQuestionToList(Question question) {
         this.questionList.add(question);
     }
 
-    public void loadObjectList() throws IOException {
-        InputStream file = getInputStream();
-        this.questionList = new LinkedList<>();
-        Scanner scanner = new Scanner(file);
-        while (scanner.hasNextLine()){
-            String[] columns = scanner.nextLine().split(";");
-            Question question = new Question();
-            question.setValue(columns[0]);
-            String correctAnswer = columns[columns.length - 1];
-            for (int i= 1; i<columns.length-1; i++) {
-                question.setAnswer(columns[i], correctAnswer.equals(columns[i]));
+    public void loadQuestionList() {
+        try {
+            Resource resource = new ClassPathResource(getFilePath());
+            InputStream inputStream = resource.getInputStream();
+            Scanner scanner = new Scanner(inputStream);
+            while (scanner.hasNextLine()) {
+                String[] columns = scanner.nextLine().split(";");
+                Question question = new Question();
+                question.setValue(columns[0]);
+                String correctAnswer = columns[columns.length - 1];
+                for (int i = 1; i < columns.length - 1; i++) {
+                    question.setAnswer(columns[i], correctAnswer.equals(columns[i]));
+                }
+                setQuestionToList(question);
             }
-            setQuestionToList(question);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

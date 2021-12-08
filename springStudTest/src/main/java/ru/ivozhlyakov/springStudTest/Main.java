@@ -1,23 +1,22 @@
 package ru.ivozhlyakov.springStudTest;
 
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.io.Resource;
-import ru.ivozhlyakov.springStudTest.domain.Question;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
 import ru.ivozhlyakov.springStudTest.service.QuestionService;
 
-import java.io.IOException;
-
+@ComponentScan
+@PropertySource(value = "classpath:application.properties")
 public class Main {
 
 	public static void main(String[] args)
     {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
+
         QuestionService questionService = context.getBean(QuestionService.class);
 
-        questionService.setResource(context.getResource("classpath:simpleTesForTheVerbTO_BE.csv"));
-        questionService.loadQuestionList();
-        questionService.print();
+        questionService.test();
 
         context.close();
 	}

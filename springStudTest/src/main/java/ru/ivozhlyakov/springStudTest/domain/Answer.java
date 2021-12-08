@@ -13,15 +13,8 @@ public class Answer {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
-
     public boolean isCorrect() {
         return isCorrect;
     }
 
-    public void setCorrect(boolean correct) {
-        isCorrect = correct;
-    }
 }
