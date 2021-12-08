@@ -16,21 +16,27 @@ public class RunTestCommands {
 
     private String locale;
 
+    public String getLocale() {
+        return locale;
+    }
+
     @ShellMethod(value = "Run test", key = {"r", "run"})
     @ShellMethodAvailability(value = "isLocaleAvailable")
-    public void runTest() {
+    public String runTest() {
         questionService.setLocale(locale);
         questionService.test();
+        return "Тест Проведен";
     }
 
     @ShellMethod(value = "Set locale ('ru' or 'en')", key = {"l", "locale"})
-    public void setLocale(@ShellOption() String locale) {
+    public String setLocale(@ShellOption(defaultValue = "ru") String locale) {
         this.locale = locale;
+        return "Выбранная локаль: "+locale;
     }
 
     private Availability isLocaleAvailable() {
         Availability availability;
-        if (locale == null) {
+        if (getLocale() == null) {
             availability = Availability.unavailable("Set the locale first");
         } else {
             availability = Availability.available();

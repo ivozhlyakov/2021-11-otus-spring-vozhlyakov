@@ -23,7 +23,10 @@ public class QuestionDAO {
     public QuestionDAO(TestConfig testConfig)  {
         this.filePath = testConfig.getFileName();
         this.countToPassExam = testConfig.getCorrectAnswerCount();
+        cleanQuestionList();
+    }
 
+    public void cleanQuestionList() {
         this.questionList = new HashMap<>();
     }
 
@@ -47,6 +50,7 @@ public class QuestionDAO {
 
     public void loadQuestionList(String locale) {
         try {
+            cleanQuestionList();
             Resource resource = new ClassPathResource(getFilePath());
             InputStream inputStream = resource.getInputStream();
             Scanner scanner = new Scanner(inputStream);

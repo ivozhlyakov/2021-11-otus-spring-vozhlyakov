@@ -1,20 +1,15 @@
 package ru.ivozhlyakov.springBootStudTest.service;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.MessageSource;
-import org.springframework.context.support.DelegatingMessageSource;
 import org.springframework.test.context.ActiveProfiles;
-import ru.ivozhlyakov.springBootStudTest.CliAppRunner;
 import ru.ivozhlyakov.springBootStudTest.dao.QuestionDAO;
 import ru.ivozhlyakov.springBootStudTest.domain.Question;
 
@@ -29,7 +24,9 @@ import static org.mockito.Mockito.when;
 
 @DisplayName("Класс QuestionService")
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest(classes = CliAppRunner.class)
+@SpringBootTest
+@ActiveProfiles("test")
+@EnableConfigurationProperties
 class QuestionServiceTest {
 
     private final String locale = "ru-RU";
