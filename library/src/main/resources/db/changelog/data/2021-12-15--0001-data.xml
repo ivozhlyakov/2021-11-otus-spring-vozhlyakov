@@ -1,0 +1,49 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="2021-12-15--0001-data_book" author="ivozhlyakov">
+        <sql>
+            insert into book(id, name)
+            values(1, 'Bad blood');
+            insert into book(id, name)
+            values(2, 'Later');
+            insert into book(id, name)
+            values(3, 'Shooter');
+        </sql>
+    </changeSet>
+
+    <changeSet id="2021-12-15--0001-data_author" author="ivozhlyakov">
+        <sql>
+            insert into author(id, brief)
+            values(1, 'Robert Galbraith');
+            insert into author(id, brief)
+            values(2, 'Stephen King');
+
+        </sql>
+    </changeSet>
+
+    <changeSet id="2021-12-15--0001-data_genre" author="ivozhlyakov">
+        <sql>
+            insert into genre(id, name)
+            values(1, 'detective');
+            insert into genre(id, name)
+            values(2, 'fantasy');
+        </sql>
+    </changeSet>
+
+    <changeSet id="2021-12-15--0001-booklinkinfo" author="ivozhlyakov">
+        <sql>
+            insert into booklinkinfo(bookid, authorid, genreid)
+            values(1, 1, 1);
+            insert into booklinkinfo(bookid, authorid, genreid)
+            values(2, 2, 2);
+            insert into booklinkinfo(bookid, authorid, genreid)
+            values(3, 2, 2);
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+
