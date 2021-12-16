@@ -1,0 +1,14 @@
+
+
+test-config:
+  file-name: simpleTesForTheVerbTOBE.csv
+  correct-answer-count: 2
+
+spring:
+  messages:
+    basename: i18n/messages
+
+  shell:
+    interactive:
+      enabled: false
+
