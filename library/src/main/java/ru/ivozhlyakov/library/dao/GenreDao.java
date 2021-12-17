@@ -42,13 +42,6 @@ public class GenreDao {
         return kh.getKey().longValue();
     }
 
-    public Genre getById(long id) {
-        Map<String, Object> params = Collections.singletonMap("id", id);
-        return namedParameterJdbcOperations.queryForObject(
-                "select * from genre where id = :id", params, new GenreMapper()
-        );
-    }
-
     public Genre getByName(String name) {
         Map<String, Object> params = Collections.singletonMap("name", name);
         try {
@@ -58,17 +51,6 @@ public class GenreDao {
         }catch (Exception e){
             return new Genre();
         }
-    }
-
-    public List<Genre> getAll() {
-        return jdbc.query("select * from genre", new GenreMapper());
-    }
-
-    public void deleteById(long id) {
-        Map<String, Object> params = Collections.singletonMap("id", id);
-        namedParameterJdbcOperations.update(
-                "delete from genre where id = :id", params
-        );
     }
 
     private static class GenreMapper implements RowMapper<Genre> {

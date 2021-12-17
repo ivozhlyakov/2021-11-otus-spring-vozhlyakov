@@ -32,4 +32,7 @@ public class BookService {
     public void deleteByID(Long id) {
         bookDao.deleteById(id);
     }
+
+    public void updateBookNameByID(Long id, String name){
+        bookDao.updateBookName(new Book(id, name));}
 }

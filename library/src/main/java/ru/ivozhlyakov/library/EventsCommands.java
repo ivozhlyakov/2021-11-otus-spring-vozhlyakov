@@ -50,10 +50,14 @@ public class EventsCommands {
     }
 
     @ShellMethod(value = "addBook <BookName>;<AuthorName>;<GenreName>", key = {"addBook"})
-    public String addBook(String string) {
-        String[] strings = string.split(";");
-        if (strings.length < 3) return "ERROR: Not all parameters were passed";
-        return bookInfoService.insert(strings[0], strings[1], strings[2]).compareTo(0L) > 0 ? "book added" : "error";
+    public String addBook(String bookName, String authorName, String genreName) {
+        if (bookName == null
+                || authorName == null
+                || genreName == null
+        ) {
+            return "ERROR: Not all parameters were passed";
+        }
+        return bookInfoService.insert(bookName, authorName, genreName).compareTo(0L) > 0 ? "book added" : "error";
     }
 
     @ShellMethod(value = "deleteBookByID <id>", key = {"deleteBookByID"})
@@ -64,6 +68,11 @@ public class EventsCommands {
     @ShellMethod(value = "getAuthorByName <name>", key = {"getAuthorByName"})
     public void getAuthorByName(String name) {
         authorService.getByName(name);
+    }
+
+    @ShellMethod(value = "updateBookNameByID <id> <bookName>", key = {"updateBookNameByID"})
+    public void updateBookNameByID(Long id, String name){
+        bookService.updateBookNameByID(id, name);
     }
 }
 

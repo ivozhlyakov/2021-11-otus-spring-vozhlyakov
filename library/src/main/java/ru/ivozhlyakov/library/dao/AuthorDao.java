@@ -26,6 +26,10 @@ public class AuthorDao {
         this.namedParameterJdbcOperations = namedParameterJdbcOperations;
     }
 
+    public int count() {
+        return jdbc.queryForObject("select count(*) from author", Integer.class);
+    }
+
     public Long insert(Author author) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("brief", author.getBrief());
@@ -40,14 +44,7 @@ public class AuthorDao {
         return Objects.requireNonNull(kh.getKey()).longValue();
     }
 
-    public Author getById(long id) {
-        Map<String, Object> params = Collections.singletonMap("id", id);
-        return namedParameterJdbcOperations.queryForObject(
-                "select * from author where id = :id", params, new AuthorMapper()
-        );
-    }
-
-    public Author getByName(String brief) {
+    public Author   getByName(String brief) {
         Map<String, Object> params = Collections.singletonMap("brief", brief);
         try {
 
@@ -57,17 +54,6 @@ public class AuthorDao {
         }catch (Exception e){
             return new Author();
         }
-    }
-
-    public List<Author> getAll() {
-        return jdbc.query("select * from author", new AuthorMapper());
-    }
-
-    public void deleteById(long id) {
-        Map<String, Object> params = Collections.singletonMap("id", id);
-        namedParameterJdbcOperations.update(
-                "delete from author where id = :id", params
-        );
     }
 
     private static class AuthorMapper implements RowMapper<Author>{
