@@ -43,10 +43,10 @@
 			<scope>test</scope>
 		</dependency>
         <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <version>${liquibase.version}</version>
-        </dependency>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-core</artifactId>
+        <version>${liquibase.version}</version>
+    </dependency>
 
         <dependency>
             <groupId>org.yaml</groupId>
