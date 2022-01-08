@@ -1,0 +1,59 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="2021-12-15--0001-tables-books" author="ivozhlyakov">
+        <createTable tableName="books">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2021-12-15--0001-tables-author" author="ivozhlyakov">
+        <createTable tableName="authors">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="brief" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2021-12-15--0001-tables-genre" author="ivozhlyakov">
+        <createTable tableName="genres">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2021-12-15--0001-tables-book_author" author="ivozhlyakov">
+        <createTable tableName="book_author">
+            <column name="book_id" type="bigint">
+                <constraints nullable="false" referencedTableName="books" referencedColumnNames="id" />
+            </column>
+            <column name="author_id" type="bigint">
+                <constraints nullable="false" referencedTableName="authors" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="book_author" columnNames="book_id, author_id"/>
+    </changeSet>
+
+    <changeSet id="2021-12-15--0001-tables-book_genre" author="ivozhlyakov">
+        <createTable tableName="book_genre">
+            <column name="book_id" type="bigint">
+                <constraints nullable="false" referencedTableName="books" referencedColumnNames="id"/>
+            </column>
+            <column name="genre_id" type="bigint">
+                <constraints nullable="false" referencedTableName="genres" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="book_genre" columnNames="book_id, genre_id"/>
+    </changeSet>
+
+</databaseChangeLog>
