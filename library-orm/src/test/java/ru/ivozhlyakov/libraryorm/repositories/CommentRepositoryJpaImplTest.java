@@ -64,9 +64,9 @@ class CommentRepositoryJpaImplTest {
         assertThat(comment.getId()).isNotNull();
 
         val optionalActualBook = repositoryJpa.findById(comment.getId());
-        val expectedBook = em.find(Comment.class, comment.getId());
+        val expectedComment = em.find(Comment.class, comment.getId());
         assertThat(optionalActualBook).isPresent().get()
-                .usingRecursiveComparison().isEqualTo(expectedBook);
+                .usingRecursiveComparison().isEqualTo(expectedComment);
     }
 
     @DisplayName("должен найти все комментарии")
@@ -116,5 +116,26 @@ class CommentRepositoryJpaImplTest {
         repositoryJpa.deleteById(comment.getId());
 
         assertThat(em.find(Comment.class, comment.getId())).isNull();
+    }
+
+    @DisplayName("должен изменить комментарий")
+    @Test
+    void updateComment() {
+        val comment = new Comment(
+                null,
+                "test6"
+                , new Book("book5"
+                , Collections.singletonList(new Author("author6"))
+                , Collections.singletonList(new Genre("genre6"))
+        )
+        );
+        val updateComment = "update comment";
+        em.persist(comment);
+        em.detach(comment);
+        repositoryJpa.updateCommentById(comment.getId(), updateComment);
+
+        val expectedComment = em.find(Comment.class, comment.getId());
+        assertThat(expectedComment).isNotNull()
+                .matches(c -> c.getComment().equals(updateComment));
     }
 }

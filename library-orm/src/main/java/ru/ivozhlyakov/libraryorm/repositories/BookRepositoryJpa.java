@@ -9,12 +9,7 @@ public interface BookRepositoryJpa {
     Book save(Book book);
 
     List<Book> findAll();
-/*
-    List<Book> findByName(String name);
 
-    void updateNameById(long id, String name);
-    void deleteById(long id);
-*/
     Optional<Book> findById(long id);
 
     void updateNameById(long id, String name);

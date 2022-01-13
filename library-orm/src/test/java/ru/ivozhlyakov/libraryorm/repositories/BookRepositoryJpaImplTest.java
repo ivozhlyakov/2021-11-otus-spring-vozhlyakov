@@ -88,7 +88,7 @@ class BookRepositoryJpaImplTest {
         ;
     }
 
-    @DisplayName(" должен изменять имя заданного студента по его id")
+    @DisplayName(" должен изменять название книги по ее id")
     @Test
     void shouldUpdateBookNameById() {
         val firstBook = em.find(Book.class, FIRST_BOOK_ID);

@@ -7,26 +7,25 @@ import org.springframework.shell.standard.ShellMethod;
 import ru.ivozhlyakov.libraryorm.models.Author;
 import ru.ivozhlyakov.libraryorm.models.Book;
 import ru.ivozhlyakov.libraryorm.models.Genre;
-import ru.ivozhlyakov.libraryorm.service.BookService;
+import ru.ivozhlyakov.libraryorm.service.BookServiceImpl;
 
 import java.util.Collections;
-import java.util.List;
 
 @ShellComponent
 @RequiredArgsConstructor
 public class BookCommand {
 
     @Autowired
-    private BookService bookService;
+    private BookServiceImpl bookServiceImpl;
 
     @ShellMethod(value = "Book list", key = {"book-list", "books", "b"})
     public String bookList() {
-       return bookService.showAll();
+       return bookServiceImpl.findAll().toString();
     }
 
     @ShellMethod(value = "Add book", key = {"add-book", "ab"})
     public void addBook(String name, String author, String genre) {
-        bookService.save(
+        bookServiceImpl.save(
                 new Book(name
                         , Collections.singletonList(new Author(author))
                         , Collections.singletonList(new Genre(genre))
@@ -36,7 +35,7 @@ public class BookCommand {
 
     @ShellMethod(value = "Update book", key = {"update-book", "ub"})
     public void updateBook(long id, String name, String author, String genre) {
-        bookService.save(Book.builder()
+        bookServiceImpl.save(Book.builder()
                 .id(id)
                 .name(name)
                 .authors(Collections.singletonList(new Author(author)))
@@ -46,7 +45,7 @@ public class BookCommand {
 
     @ShellMethod(value = "Delete book", key = {"delete-book", "db"})
     public void delete(long id) {
-        bookService.deleteById(id);
+        bookServiceImpl.deleteById(id);
     }
 
 }
