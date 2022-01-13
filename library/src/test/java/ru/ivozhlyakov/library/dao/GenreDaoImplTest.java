@@ -5,34 +5,32 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
-import ru.ivozhlyakov.library.domain.Author;
 import ru.ivozhlyakov.library.domain.Genre;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Dao для работы с жанрами должно")
 @JdbcTest
-@Import(GenreDao.class)
-class GenreDaoTest {
+@Import(TestDaoConfiguration.class)
+class GenreDaoImplTest {
 
     private static final String EXPECTED_AUTHOR_NAME = "Genre Test";
 
     @Autowired
-    private GenreDao genreDao;
+    private GenreDaoImpl genreDaoImpl;
 
     @DisplayName("добавляет жанр")
     @Test
     void insert() {
-        genreDao.insert(new Genre(EXPECTED_AUTHOR_NAME));
-        Genre genre = genreDao.getByName(EXPECTED_AUTHOR_NAME);
+        Long genre_id = genreDaoImpl.insert(Genre.builder().name(EXPECTED_AUTHOR_NAME).build());
+        Genre genre = genreDaoImpl.getById(genre_id);
         assertThat(genre.getName()).isEqualTo(EXPECTED_AUTHOR_NAME);
     }
 
     @DisplayName("возвращает ожидаемый жанр")
     @Test
     void getByName() {
-        Genre genre = genreDao.getByName("fantasy");
+        Genre genre = genreDaoImpl.getById(1L);
         assertThat(genre.getName()).isNotNull();
     }
 }

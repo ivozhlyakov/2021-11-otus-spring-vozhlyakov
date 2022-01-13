@@ -1,6 +1,5 @@
 package ru.ivozhlyakov.library.dao;
 
-import org.assertj.core.api.ObjectAssert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,27 +11,27 @@ import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("Dao для работы с авторами должно")
 @JdbcTest
-@Import(AuthorDao.class)
+@Import(TestDaoConfiguration.class)
 class AuthorDaoTest {
 
     private static final int EXPECTED_AUTHOR_COUNT = 2;
     private static final String EXPECTED_AUTHOR_NAME = "Stephen King";
 
     @Autowired
-    private AuthorDao authorDao;
+    private AuthorDaoImpl authorDao;
 
     @DisplayName("добавляет автора")
     @Test
     void insert() {
         int beforeCount = authorDao.count();
-        authorDao.insert(new Author("Author Test"));
+        authorDao.insert(Author.builder().brief("Author Test").build());
         assertThat(authorDao.count()).isEqualTo(beforeCount + 1);
     }
 
     @DisplayName("возвращает ожидаемого автора по имени")
     @Test
     void getByName() {
-        Author author = authorDao.getByName(EXPECTED_AUTHOR_NAME);
+        Author author = authorDao.getById(1L);
         assertThat(author.getId()).isNotNull();
     }
 

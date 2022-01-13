@@ -4,75 +4,75 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellOption;
 import ru.ivozhlyakov.library.domain.Author;
 import ru.ivozhlyakov.library.domain.Book;
 import ru.ivozhlyakov.library.domain.Genre;
-import ru.ivozhlyakov.library.service.AuthorService;
-import ru.ivozhlyakov.library.service.BookInfoService;
-import ru.ivozhlyakov.library.service.BookService;
+import ru.ivozhlyakov.library.service.AuthorServiceImpl;
+import ru.ivozhlyakov.library.service.BookServiceImpl;
 
-import java.text.MessageFormat;
 import java.util.List;
-import java.util.Set;
 
 @ShellComponent
 @RequiredArgsConstructor
 public class EventsCommands {
 
     @Autowired
-    private BookService bookService;
+    private BookServiceImpl bookServiceImpl;
 
     @Autowired
-    private BookInfoService bookInfoService;
+    private AuthorServiceImpl authorServiceImpl;
 
-    @Autowired
-    private AuthorService authorService;
+    private Book createBook(String name, String authorFio, String genreName) {
+        return Book.builder()
+                .name(name)
+                .author(Author.builder()
+                        .brief(authorFio)
+                        .build())
+                .genre(Genre.builder()
+                        .name(genreName)
+                        .build())
+                .build();
+    }
 
-    @ShellMethod(value = "getBookNameByID <id>", key = {"getBookNameByID"})
-    public String getBookNameByID(Long id) {
-        return bookService.getBookNameByID(id);
+    @ShellMethod(value = "getBookByID <id>", key = {"getBookByID"})
+    public Book getBookNameByID(Long id) {
+        return bookServiceImpl.getById(id);
     }
 
     @ShellMethod(value = "getBookAll", key = "getBookAll")
     public List<Book> getBookAll() {
-        return bookService.getAll();
+        return bookServiceImpl.getAll();
     }
 
-    @ShellMethod(value = "getBookInfoByID <id>", key = {"getBookInfoByID"})
-    public String getBookInfoByID(Long id) {
-        return bookInfoService.getBookInfoByID(id);
-    }
-
-    @ShellMethod(value = "getAllBookWithInfo", key = {"getAllBookWithInfo"})
-    public Set<String> getBookInfoByID() {
-        return bookInfoService.getAllBookWithInfo();
-    }
-
-    @ShellMethod(value = "addBook <BookName>;<AuthorName>;<GenreName>", key = {"addBook"})
+    @ShellMethod(value = "addBook <BookName> <AuthorName> <GenreName>", key = {"addBook", "ab"})
     public String addBook(String bookName, String authorName, String genreName) {
-        if (bookName == null
-                || authorName == null
-                || genreName == null
-        ) {
-            return "ERROR: Not all parameters were passed";
-        }
-        return bookInfoService.insert(bookName, authorName, genreName).compareTo(0L) > 0 ? "book added" : "error";
+        Book book = createBook(bookName, authorName, genreName);
+        return bookServiceImpl.insert(book).compareTo(0L) > 0 ? "book added" : "error";
+    }
+
+    @ShellMethod(value = "addBook <BookName> <Author_ID> <Genre_ID>", key = {"addBookWithID", "abId"})
+    public String addBook2(String bookName, Long author_id, Long genre_id) {
+        Book book = Book.builder()
+                .name(bookName)
+                .author(Author.builder().id(author_id).build())
+                .genre(Genre.builder().id(genre_id).build())
+                .build();
+        return bookServiceImpl.insert(book).compareTo(0L) > 0 ? "book added" : "error";
     }
 
     @ShellMethod(value = "deleteBookByID <id>", key = {"deleteBookByID"})
     public void deleteBookByID(Long id) {
-        bookService.deleteByID(id);
-    }
-
-    @ShellMethod(value = "getAuthorByName <name>", key = {"getAuthorByName"})
-    public void getAuthorByName(String name) {
-        authorService.getByName(name);
+        bookServiceImpl.deleteByID(id);
     }
 
     @ShellMethod(value = "updateBookNameByID <id> <bookName>", key = {"updateBookNameByID"})
     public void updateBookNameByID(Long id, String name){
-        bookService.updateBookNameByID(id, name);
+        bookServiceImpl.updateBookNameByID(
+                Book.builder()
+                .id(id)
+                .name(name)
+                .build()
+        );
     }
 }
 

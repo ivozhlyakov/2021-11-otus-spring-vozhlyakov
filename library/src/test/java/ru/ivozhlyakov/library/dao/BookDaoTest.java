@@ -8,14 +8,15 @@ import org.springframework.context.annotation.Import;
 import org.springframework.dao.EmptyResultDataAccessException;
 import ru.ivozhlyakov.library.domain.Author;
 import ru.ivozhlyakov.library.domain.Book;
+import ru.ivozhlyakov.library.domain.Genre;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+
 @DisplayName("Dao для работы с книгами должно")
 @JdbcTest
-@Import(BookDao.class)
+@Import(TestDaoConfiguration.class)
 class BookDaoTest {
 
     public static final int EXPECTED_BOOK_COUNT = 3;
@@ -23,53 +24,69 @@ class BookDaoTest {
     public static final String EXPECTED_BOOK_NAME = "BOOK TEST";
 
     @Autowired
-    private BookDao bookDao;
+    private BookDaoImpl bookDaoImpl;
+
+    private Book createBook(String name, String authorFio, String genreName) {
+        return Book.builder()
+                .name(name)
+                .author(Author.builder()
+                        .brief(authorFio)
+                        .build())
+                .genre(Genre.builder()
+                        .name(genreName)
+                        .build())
+                .build();
+    }
 
     @DisplayName("возвращает ожидаемое количество книг")
     @Test
     void count() {
-        assertThat(bookDao.count()).isEqualTo(EXPECTED_BOOK_COUNT);
+        assertThat(bookDaoImpl.count()).isEqualTo(EXPECTED_BOOK_COUNT);
     }
 
     @DisplayName("добавляет книгу")
     @Test
     void insert() {
-        int beforeCount = bookDao.count();
-        bookDao.insert(new Book("Book Test"));
-        assertThat(bookDao.count()).isEqualTo(beforeCount + 1);
+        int beforeCount = bookDaoImpl.count();
+        Book book = createBook("New_Book", "New_Author", "New_Genre");
+        bookDaoImpl.insert(book);
+        assertThat(bookDaoImpl.count()).isEqualTo(beforeCount + 1);
     }
 
     @DisplayName("возвращает книгу по идентификатору")
     @Test
     void getById() {
-        Book book = bookDao.getById(1);
+        Book book = bookDaoImpl.getBookByID(1L);
         assertThat(book.getName()).isNotNull();
     }
 
     @DisplayName("возвращает список книг")
     @Test
     void getAll() {
-        List<Book> books = bookDao.getAll();
+        List<Book> books = bookDaoImpl.getAll();
         assertThat(books.size() > 0).isEqualTo(Boolean.TRUE);
     }
 
     @DisplayName("удалит книгу по заданому идентификатору")
     @Test
     void deleteById() {
-        assertThatCode(() -> bookDao.getById(EXPECTED_BOOK_ID))
+        assertThatCode(() -> bookDaoImpl.getBookByID(EXPECTED_BOOK_ID))
                 .doesNotThrowAnyException();
 
-        bookDao.deleteById(EXPECTED_BOOK_ID);
+        bookDaoImpl.deleteById(EXPECTED_BOOK_ID);
 
-        assertThatThrownBy(() -> bookDao.getById(EXPECTED_BOOK_ID))
+        assertThatThrownBy(() -> bookDaoImpl.getBookByID(EXPECTED_BOOK_ID))
                 .isInstanceOf(EmptyResultDataAccessException.class);
     }
 
     @DisplayName("изменит название книги по идентификатору")
     @Test
     void updateBookName() {
-        Book book = new Book(EXPECTED_BOOK_ID, EXPECTED_BOOK_NAME);
-        bookDao.updateBookName(book);
-        assertThat(bookDao.getById(EXPECTED_BOOK_ID).getName()).isEqualTo(EXPECTED_BOOK_NAME);
+        Book book = Book.builder()
+                .id(EXPECTED_BOOK_ID)
+                .name(EXPECTED_BOOK_NAME)
+                .build();
+        bookDaoImpl.updateBookName(book);
+        assertThat(bookDaoImpl.getBookByID(EXPECTED_BOOK_ID).getName()).isEqualTo(EXPECTED_BOOK_NAME);
     }
 }

@@ -3,46 +3,55 @@ package ru.ivozhlyakov.library.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import ru.ivozhlyakov.library.dao.BookInfoDao;
-import ru.ivozhlyakov.library.domain.BookInfo;
+import ru.ivozhlyakov.library.dao.TestDaoConfiguration;
+import ru.ivozhlyakov.library.domain.Author;
+import ru.ivozhlyakov.library.domain.Book;
+import ru.ivozhlyakov.library.domain.Genre;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Сервис для работы с полной информацией по книге")
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
-@Import(BookInfoDao.class)
-class BookInfoServiceTest {
+@Import(TestDaoConfiguration.class)
+class BookServiceImplTest {
 
     @Autowired
-    private BookInfoDao dao;
+    private BookServiceImpl service;
 
-    @Autowired
-    private BookInfoService service;
+    private Book createBook(String name, String authorFio, String genreName) {
+        return Book.builder()
+                .name(name)
+                .author(Author.builder()
+                        .brief(authorFio)
+                        .build())
+                .genre(Genre.builder()
+                        .name(genreName)
+                        .build())
+                .build();
+    }
 
     @DisplayName("возвращает информацию о книге по заданному идентификатору")
     @Test
     void getBookInfoByID() {
-        assertThat(service.getBookInfoByID(1L)).isNotNull();
+        assertThat(service.getById(1L)).isNotNull();
     }
 
     @DisplayName("возвращает список книг")
     @Test
     void getAllBookWithInfo() {
-        assertThat(service.getAllBookWithInfo().size() > 0).isEqualTo(Boolean.TRUE);
+        assertThat(service.getAll().size() > 0).isEqualTo(Boolean.TRUE);
     }
 
     @DisplayName("добавляет книгу с информацией о ней")
     @Test
     void insert() {
-        Long id = service.insert("BookName", "AuthorNAme", "GenreName");
+        Book book = createBook("BookName", "AuthorNAme", "GenreName");
+        Long id = service.insert(book);
         assertThat(id.compareTo(0L)).isEqualTo(1);
     }
 }
