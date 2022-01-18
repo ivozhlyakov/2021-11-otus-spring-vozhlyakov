@@ -35,26 +35,16 @@ public class Book {
 
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 5)
-    @ManyToMany(targetEntity = Author.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = Author.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authors;
 
-    @OneToMany(targetEntity = Genre.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 5)
+    @ManyToMany(targetEntity = Genre.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "book_genre", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private List<Genre> genres;
-
-    @Override
-    public String toString() {
-        return "\n"
-                +"book.id: "+getId() + ", "
-                +"book.name: "+getName()+", "
-                +"book.authors: "+ getAuthors()
-                        .stream()
-                        .map(Author::getBrief)
-                        .collect(Collectors.toList())
-                ;
-    }
 
 }

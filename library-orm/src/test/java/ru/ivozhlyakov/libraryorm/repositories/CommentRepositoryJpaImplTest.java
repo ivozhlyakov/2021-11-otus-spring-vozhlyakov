@@ -93,7 +93,7 @@ class CommentRepositoryJpaImplTest {
         em.persist(comment1);
         em.persist(comment2);
 
-        assertThat(repositoryJpa.findAll()).containsOnly(comment1, comment2);
+        assertThat(repositoryJpa.findAll()).contains(comment1, comment2);
 
     }
 

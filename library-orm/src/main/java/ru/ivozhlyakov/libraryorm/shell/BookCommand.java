@@ -10,6 +10,10 @@ import ru.ivozhlyakov.libraryorm.models.Genre;
 import ru.ivozhlyakov.libraryorm.service.BookServiceImpl;
 
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @ShellComponent
 @RequiredArgsConstructor
@@ -20,7 +24,7 @@ public class BookCommand {
 
     @ShellMethod(value = "Book list", key = {"book-list", "books", "b"})
     public String bookList() {
-       return bookServiceImpl.findAll().toString();
+        return bookServiceImpl.showTable();
     }
 
     @ShellMethod(value = "Add book", key = {"add-book", "ab"})

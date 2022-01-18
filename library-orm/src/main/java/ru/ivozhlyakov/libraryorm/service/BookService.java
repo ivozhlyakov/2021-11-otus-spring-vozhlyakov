@@ -9,4 +9,5 @@ public interface BookService {
     void save(Book book);
     List<Book> findAll();
     void deleteById(Long id);
+    String showTable();
 }
