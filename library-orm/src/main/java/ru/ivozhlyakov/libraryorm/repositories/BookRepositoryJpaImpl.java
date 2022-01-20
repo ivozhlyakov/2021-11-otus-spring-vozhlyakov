@@ -35,7 +35,8 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa {
         TypedQuery<Book> query = em.createQuery("" +
                 "select b from Book b " +
                 "join b.authors " +
-                "join b.genres", Book.class);
+                "join b.genres " +
+                "group by b", Book.class);
         return query.getResultList();
     }
 
