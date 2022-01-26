@@ -1,0 +1,1 @@
+JPQL, Spring ORM, DAO на основе Spring ORM + JPA
