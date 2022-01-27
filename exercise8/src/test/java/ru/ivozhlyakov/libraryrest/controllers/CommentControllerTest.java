@@ -89,7 +89,6 @@ class CommentControllerTest {
                 .andExpect(status().isOk());
 
         verify(commentService).createComment(1L, "text");
-
     }
 
     @Test
