@@ -23,8 +23,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
+/*
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+*/
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET,
                         "/books"
@@ -45,6 +47,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         , "/genres/*"
                 ).hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE,
+                        "/books/*"
+                        , "/authors/*"
+                        , "/comments/*"
+                        , "/genres/*"
+                ).hasRole("ADMIN")
+                .antMatchers(HttpMethod.PATCH,
                         "/books/*"
                         , "/authors/*"
                         , "/comments/*"

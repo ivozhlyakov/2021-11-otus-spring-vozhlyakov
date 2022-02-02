@@ -1,5 +1,7 @@
 package ru.ivozhlyakov.exercise9.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.ivozhlyakov.exercise9.models.Author;
 import ru.ivozhlyakov.exercise9.models.Book;
@@ -37,15 +39,15 @@ public class BookController {
     }
 
     @PostMapping("/books")
-    public void addBook(@RequestParam(name = "name") String name
-            ,@RequestParam(name = "author") String author
-            ,@RequestParam(name = "genre") String genre) {
-        bookServiceImpl.save(
+    public ResponseEntity<Book> addBook(@RequestParam(name = "name") String name
+            , @RequestParam(name = "author") String author
+            , @RequestParam(name = "genre") String genre) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookServiceImpl.save(
                 new Book(name
                         , Collections.singletonList(new Author(author))
                         , Collections.singletonList(new Genre(genre))
-                        )
-        );
+                )
+        ));
     }
 
     @PutMapping("/books/{id}")

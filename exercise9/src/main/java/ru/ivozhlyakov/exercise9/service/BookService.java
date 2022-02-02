@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BookService {
-    void save(Book book);
+    Book save(Book book);
     List<Book> findAll();
 
     @Transactional(readOnly = true)

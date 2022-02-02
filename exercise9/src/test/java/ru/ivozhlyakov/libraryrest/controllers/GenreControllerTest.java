@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.ivozhlyakov.exercise9.LibraryOrmApplication;
 import ru.ivozhlyakov.exercise9.controllers.GenreController;
 import ru.ivozhlyakov.exercise9.models.Genre;
 import ru.ivozhlyakov.exercise9.service.GenreServiceImpl;
@@ -21,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @DisplayName("Тестирование GenreController")
-@SpringBootTest
+@SpringBootTest(classes = LibraryOrmApplication.class)
 @AutoConfigureMockMvc
 class GenreControllerTest {
 
@@ -39,6 +41,7 @@ class GenreControllerTest {
 
     @DisplayName("вернет все жанры")
     @Test
+    @WithMockUser(value = "user")
     void shouldReturnAllGenres() throws Exception {
         List<Genre> genres = Arrays.asList(
                 new Genre(1L, "one")

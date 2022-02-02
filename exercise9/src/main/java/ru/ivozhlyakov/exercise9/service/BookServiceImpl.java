@@ -24,8 +24,8 @@ public class BookServiceImpl implements BookService{
 
     @Transactional
     @Override
-    public void save(Book book){
-        repository.save(book);
+    public Book save(Book book){
+        return repository.save(book);
     }
 
     @Transactional(readOnly = true)
