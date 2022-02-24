@@ -13,10 +13,6 @@ import javax.persistence.*;
 @Table(name = "authors")
 public class Author {
 
-    public Author(String brief) {
-        this.brief = brief;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

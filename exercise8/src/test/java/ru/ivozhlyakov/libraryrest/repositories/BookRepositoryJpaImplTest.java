@@ -52,12 +52,12 @@ class BookRepositoryJpaImplTest {
     @DisplayName(" должен корректно сохранять всю информацию о книге")
     @Test
     void shouldSaveAllBookInfo() {
-        val author = new Author( "Author");
-        val genre = new Genre( "Genre");
+        val author = new Author(null, "Author");
+        val genre = new Genre(null,  "Genre");
         val authors = Collections.singletonList(author);
         val genres = Collections.singletonList(genre);
 
-        val book = new Book("BookTest", authors, genres);
+        val book = new Book(null, "BookTest", authors, genres);
         repositoryJpa.save(book);
         assertThat(book.getId()).isGreaterThan(0);
 
@@ -70,8 +70,8 @@ class BookRepositoryJpaImplTest {
     @DisplayName(" должен корректно изменить информацию о книге")
     @Test
     void shouldUpdateNameBook() {
-        val author = new Author( "New_Author");
-        val genre = new Genre( "New_Genre");
+        val author = new Author(null,  "New_Author");
+        val genre = new Genre(null,  "New_Genre");
         val authors = Collections.singletonList(author);
         val genres = Collections.singletonList(genre);
         val book = new Book(1L, "New_Namw_Book", authors, genres);
@@ -92,7 +92,7 @@ class BookRepositoryJpaImplTest {
         String oldName = firstBook.getName();
         em.detach(firstBook);
 
-        repositoryJpa.updateNameById(FIRST_BOOK_ID, "New_Book_Name");
+        repositoryJpa.save(Book.builder().id(FIRST_BOOK_ID).name("New_Book_Name").build());
         val updatedStudent = em.find(Book.class, FIRST_BOOK_ID);
 
         assertThat(updatedStudent.getName()).isNotEqualTo(oldName).isEqualTo("New_Book_Name");

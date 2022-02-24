@@ -18,12 +18,6 @@ import java.util.List;
 @Table(name = "books")
 public class Book {
 
-    public Book(String name, List<Author> authors, List<Genre> genres) {
-        this.name = name;
-        this.authors = authors;
-        this.genres = genres;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

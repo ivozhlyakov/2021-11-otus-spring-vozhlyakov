@@ -14,6 +14,7 @@ import ru.ivozhlyakov.libraryrest.models.Author;
 import ru.ivozhlyakov.libraryrest.models.Book;
 import ru.ivozhlyakov.libraryrest.models.Comment;
 import ru.ivozhlyakov.libraryrest.models.Genre;
+import ru.ivozhlyakov.libraryrest.service.CommentService;
 import ru.ivozhlyakov.libraryrest.service.CommentServiceImpl;
 
 import java.util.Arrays;
@@ -45,7 +46,7 @@ class CommentControllerTest {
     private ObjectMapper mapper;
 
     @MockBean
-    CommentServiceImpl commentService;
+    CommentService commentService;
 
     @Test
     @DisplayName("вернет все комментарии")

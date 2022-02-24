@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.ivozhlyakov.libraryrest.models.Author;
 import ru.ivozhlyakov.libraryrest.models.Book;
 import ru.ivozhlyakov.libraryrest.models.Genre;
+import ru.ivozhlyakov.libraryrest.service.BookService;
 import ru.ivozhlyakov.libraryrest.service.BookServiceImpl;
 import ru.ivozhlyakov.libraryrest.service.CommentServiceImpl;
 
@@ -44,7 +45,7 @@ class BookControllerTest {
     private ObjectMapper mapper;
 
     @MockBean
-    BookServiceImpl bookService;
+    BookService bookService;
 
     @Test
     @DisplayName("вернет все книги")
@@ -88,9 +89,9 @@ class BookControllerTest {
     @Test
     @DisplayName("добавит книгу")
     void addBook() throws Exception {
-        Book book = new Book("book"
-                , Collections.singletonList(new Author("author"))
-                , Collections.singletonList(new Genre("genre"))
+        Book book = new Book(null, "book"
+                , Collections.singletonList(new Author(null, "author"))
+                , Collections.singletonList(new Genre(null, "genre"))
         );
         mockMvc.perform(post("/books")
                 .param("name", "book")
@@ -106,8 +107,8 @@ class BookControllerTest {
     void updateBook() throws Exception {
         Book book = new Book(1L
                 ,"book"
-                , Collections.singletonList(new Author("author"))
-                , Collections.singletonList(new Genre("genre"))
+                , Collections.singletonList(new Author(null, "author"))
+                , Collections.singletonList(new Genre(null, "genre"))
         );
         mockMvc.perform(put("/books/1")
                 .param("name", "book")

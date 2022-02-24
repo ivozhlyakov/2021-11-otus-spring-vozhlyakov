@@ -31,9 +31,9 @@ class CommentRepositoryJpaImplTest {
         val comment = new Comment(
                 null,
                 "test"
-                , new Book( "book"
-                , Collections.singletonList(new Author("author"))
-                , Collections.singletonList(new Genre("genre"))
+                , new Book( null, "book"
+                , Collections.singletonList(new Author(null, "author"))
+                , Collections.singletonList(new Genre(null, "genre"))
         )
 
         );
@@ -51,9 +51,9 @@ class CommentRepositoryJpaImplTest {
         val comment = new Comment(
                 null,
                 "test3"
-                , new Book("book3"
-                , Collections.singletonList(new Author("author3"))
-                , Collections.singletonList(new Genre("genre3"))
+                , new Book(null, "book3"
+                , Collections.singletonList(new Author(null, "author3"))
+                , Collections.singletonList(new Genre(null, "genre3"))
         )
 
         );
@@ -72,18 +72,18 @@ class CommentRepositoryJpaImplTest {
         val comment1 = new Comment(
                 null,
                 "test1"
-                , new Book("book1"
-                , Collections.singletonList(new Author("author1"))
-                , Collections.singletonList(new Genre("genre1"))
+                , new Book(null,"book1"
+                , Collections.singletonList(new Author(null, "author1"))
+                , Collections.singletonList(new Genre(null, "genre1"))
         )
         );
 
         val comment2 = new Comment(
                 null,
                 "test2"
-                , new Book("book2"
-                , Collections.singletonList(new Author("author2"))
-                , Collections.singletonList(new Genre("genre2"))
+                , new Book(null, "book2"
+                , Collections.singletonList(new Author(null, "author2"))
+                , Collections.singletonList(new Genre(null, "genre2"))
         )
         );
 
@@ -100,9 +100,9 @@ class CommentRepositoryJpaImplTest {
         val comment = new Comment(
                 null,
                 "test5"
-                , new Book("book5"
-                , Collections.singletonList(new Author("author5"))
-                , Collections.singletonList(new Genre("genre5"))
+                , new Book(null, "book5"
+                , Collections.singletonList(new Author(null, "author5"))
+                , Collections.singletonList(new Genre(null, "genre5"))
         )
         );
 
@@ -121,9 +121,9 @@ class CommentRepositoryJpaImplTest {
         val comment = new Comment(
                 null,
                 "test6"
-                , new Book("book5"
-                , Collections.singletonList(new Author("author6"))
-                , Collections.singletonList(new Genre("genre6"))
+                , new Book(null, "book5"
+                , Collections.singletonList(new Author(null, "author6"))
+                , Collections.singletonList(new Genre(null, "genre6"))
         )
         );
         val updateComment = "update comment";

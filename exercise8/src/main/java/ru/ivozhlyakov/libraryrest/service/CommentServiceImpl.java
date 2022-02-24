@@ -1,5 +1,6 @@
 package ru.ivozhlyakov.libraryrest.service;
 
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,15 +12,11 @@ import ru.ivozhlyakov.libraryrest.repositories.CommentRepositoryJpa;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class CommentServiceImpl implements CommentService{
 
     private CommentRepositoryJpa commentRepository;
     private BookRepositoryJpa bookRepository;
-
-    public CommentServiceImpl(CommentRepositoryJpa commentRepository, BookRepositoryJpa bookRepository) {
-        this.commentRepository = commentRepository;
-        this.bookRepository = bookRepository;
-    }
 
     @Transactional
     @Override
