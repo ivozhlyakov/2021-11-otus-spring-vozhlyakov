@@ -10,6 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.ivozhlyakov.libraryrest.models.Author;
 import ru.ivozhlyakov.libraryrest.models.Genre;
+import ru.ivozhlyakov.libraryrest.service.GenreService;
 import ru.ivozhlyakov.libraryrest.service.GenreServiceImpl;
 
 import java.util.Arrays;
@@ -35,7 +36,7 @@ class GenreControllerTest {
     private ObjectMapper mapper;
 
     @MockBean
-    GenreServiceImpl genreService;
+    GenreService genreService;
 
     @DisplayName("вернет все жанры")
     @Test

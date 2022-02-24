@@ -1,5 +1,6 @@
 package ru.ivozhlyakov.exercise9.service;
 
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,26 +10,23 @@ import ru.ivozhlyakov.exercise9.repositories.BookRepositoryJpa;
 import ru.ivozhlyakov.exercise9.repositories.CommentRepositoryJpa;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class CommentServiceImpl implements CommentService{
 
     private CommentRepositoryJpa commentRepository;
     private BookRepositoryJpa bookRepository;
 
-    public CommentServiceImpl(CommentRepositoryJpa commentRepository, BookRepositoryJpa bookRepository) {
-        this.commentRepository = commentRepository;
-        this.bookRepository = bookRepository;
-    }
-
     @Transactional
     @Override
-    public Comment createComment(long bookId, @NonNull String comment) {
+    public void createComment(long bookId, @NonNull String comment) {
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
-        return commentRepository.save(
+        commentRepository.save(
                 new Comment(
                         null
-                        ,comment
+                        , comment
                         , book
                 )
         );
@@ -52,9 +50,4 @@ public class CommentServiceImpl implements CommentService{
         commentRepository.deleteById(id);
     }
 
-    @Transactional
-    @Override
-    public void updateComment(Long id, String comment) {
-        commentRepository.updateCommentById(id, comment);
-    }
 }

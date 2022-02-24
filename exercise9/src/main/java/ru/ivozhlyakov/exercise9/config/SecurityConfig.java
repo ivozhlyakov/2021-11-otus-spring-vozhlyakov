@@ -53,10 +53,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         , "/genres/*"
                 ).hasRole("ADMIN")
                 .antMatchers(HttpMethod.PATCH,
-                        "/books/*"
-                        , "/authors/*"
-                        , "/comments/*"
-                        , "/genres/*"
+                        "/books/**"
+                        , "/authors/**"
+                        , "/comments/**"
+                        , "/genres/**"
                 ).hasRole("ADMIN")
                 .and()
                 .formLogin()

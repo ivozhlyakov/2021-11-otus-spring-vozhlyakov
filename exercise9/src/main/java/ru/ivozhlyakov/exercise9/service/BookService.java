@@ -14,6 +14,5 @@ public interface BookService {
     Optional<Book> findById(Long id);
 
     void deleteById(Long id);
-    String showTable();
     void updateNameById(Long id, String name);
 }
