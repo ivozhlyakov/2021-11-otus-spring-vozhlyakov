@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.ivozhlyakov.libraryrest.models.Author;
+import ru.ivozhlyakov.libraryrest.service.AuthorService;
 import ru.ivozhlyakov.libraryrest.service.AuthorServiceImpl;
 
 import java.util.Arrays;
@@ -34,7 +35,7 @@ class AuthorControllerTest {
     private ObjectMapper mapper;
 
     @MockBean
-    AuthorServiceImpl authorService;
+    AuthorService authorService;
 
     @DisplayName("вернет всех авторов")
     @Test
@@ -51,4 +52,5 @@ class AuthorControllerTest {
                 .andExpect(content().json(mapper.writeValueAsString(authors)));
 
     }
+
 }
