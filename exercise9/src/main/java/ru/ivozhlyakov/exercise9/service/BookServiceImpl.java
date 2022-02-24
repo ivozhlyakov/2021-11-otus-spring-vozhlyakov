@@ -1,5 +1,7 @@
 package ru.ivozhlyakov.exercise9.service;
 
+import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ivozhlyakov.exercise9.models.Author;
@@ -12,15 +14,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Service
 public class BookServiceImpl implements BookService{
 
     private BookRepositoryJpa repository;
-    private String stringTmp;
-
-    public BookServiceImpl(BookRepositoryJpa repository) {
-        this.repository = repository;
-    }
 
     @Transactional
     @Override
@@ -46,39 +44,13 @@ public class BookServiceImpl implements BookService{
         repository.deleteById(id);
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public String showTable() {
-        stringTmp = "";
-        repository.findAll().forEach(book -> {
-            List<Author> authors = Optional.ofNullable(book.getAuthors()).orElse(Collections.singletonList(new Author()));
-            List<Genre> genres = Optional.ofNullable(book.getGenres()).orElse(Collections.singletonList(new Genre()));
-
-            addRow("\n"
-                    +"book.id: "+book.getId() + ", "
-                    +"book.name: "+book.getName()+", "
-                    +"book.authors: "+authors
-                    .stream()
-                    .map(Author::getBrief)
-                    .collect(Collectors.toList())+", "
-                    +"book.genres: "+genres
-                    .stream()
-                    .map(Genre::getName)
-                    .collect(Collectors.toList())
-            );
-        });
-
-        return stringTmp;
-    }
-
+    @SneakyThrows
     @Transactional
     @Override
     public void updateNameById(Long id, String name) {
-        repository.updateNameById(id, name);
-    }
-
-    private void addRow(String s) {
-        stringTmp = stringTmp.concat(s);
+        Book book = findById(id).orElseThrow(() -> new Exception("Book no found by id = "+id));
+        book.setName(name);
+        repository.save(book);
     }
 
 }

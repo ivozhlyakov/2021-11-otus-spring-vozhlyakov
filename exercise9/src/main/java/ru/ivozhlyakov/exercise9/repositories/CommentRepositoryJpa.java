@@ -8,9 +8,4 @@ import ru.ivozhlyakov.exercise9.models.Comment;
 
 public interface CommentRepositoryJpa extends JpaRepository<Comment, Long> {
 
-    @Modifying
-    @Query("update Comment c " +
-            "set c.comment = :value " +
-            "where c.id = :id")
-    void updateCommentById(@Param("id") Long id, @Param("value") String comment);
 }

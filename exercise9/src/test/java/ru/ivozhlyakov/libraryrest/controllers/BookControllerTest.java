@@ -109,7 +109,7 @@ class BookControllerTest {
 
 
     @Test
-    @WithUserDetails(value = "admin")
+    @WithMockUser(value = "admin", authorities = {"ROLE_ADMIN"})
     @DisplayName("изменит книгу")
     void updateBook() throws Exception {
         Book book = new Book(1L
@@ -126,7 +126,7 @@ class BookControllerTest {
     }
 
     @Test
-    @WithUserDetails(value = "user")
+    @WithMockUser(value = "user", authorities = {"ROLE_USER"})
     @DisplayName("не изменит книгу пользователю не с тем логином")
     void notUpdateBook() throws Exception {
         Book book = new Book(1L

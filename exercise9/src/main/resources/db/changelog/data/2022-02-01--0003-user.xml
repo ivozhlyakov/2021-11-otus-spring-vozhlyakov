@@ -8,7 +8,7 @@
     <changeSet id="2022-02-01--0003-user-data" author="ivozhlyakov">
         <sql>
             insert into users(login, password, expired, locked, enabled)
-            values ('admin', '$2a$12$z7JtqNszjz570wG8bLDbAOq.v.6mBU.k5ipsw58rd3N8tIW3tYZoS', false, false, true)
+            values ('admin', '$2a$12$GWClIWiWt9xbQraKQmiWdOq5VakNXhn/zcNjQ40j3x4.0dSr9SrZa', false, false, true)
                  , ('user', '$2a$12$GWClIWiWt9xbQraKQmiWdOq5VakNXhn/zcNjQ40j3x4.0dSr9SrZa', false, false, true);
 
         </sql>

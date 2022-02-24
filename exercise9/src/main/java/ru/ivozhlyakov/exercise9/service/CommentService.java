@@ -3,11 +3,11 @@ package ru.ivozhlyakov.exercise9.service;
 import ru.ivozhlyakov.exercise9.models.Comment;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CommentService {
-    Comment createComment(long bookId, String comment);
-    Comment save(Comment comment);
+    void createComment(long bookId, String comment);
     List<Comment> findAll();
     void deleteById(Long id);
-    void updateComment(Long id, String comment);
+    Comment save(Comment comment);
 }
