@@ -9,5 +9,4 @@ public interface CommentService {
     Comment save(Comment comment);
     List<Comment> findAll();
     void deleteById(Long id);
-    void updateComment(Long id, String comment);
 }

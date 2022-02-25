@@ -109,35 +109,6 @@ class CommentControllerTest {
 
     }
 
-    @WithMockUser(value = "admin", authorities = {"ROLE_ADMIN"})
-    @Test
-    @DisplayName("изменит комментарий")
-    void update() throws Exception {
-        Comment comment = new Comment(4L, "text", Book.builder()
-                .id(4L)
-                .name("book1")
-                .authors(Collections.singletonList(new Author(4L, "author")))
-                .genres(Collections.singletonList(new Genre(4L, "genre1")))
-                .build()
-        );
-        given(commentService.findAll()).willReturn(Collections.singletonList(comment));
-        given(commentService.save(any())).willAnswer(invocation -> invocation.getArgument(0));
-
-        Comment comment2 = new Comment(4L, "text2222", Book.builder()
-                .id(4L)
-                .name("book1")
-                .authors(Collections.singletonList(new Author(4L, "author")))
-                .genres(Collections.singletonList(new Genre(4L, "genre1")))
-                .build()
-        );
-        String expectedResult = mapper.writeValueAsString(comment2);
-
-        mockMvc.perform(patch("/comments/{id}/comment", 4).param("comment", comment2.getComment())
-                .content(expectedResult))
-                .andExpect(status().isOk())
- ;//               .andExpect(content().json(expectedResult));
-    }
-
     @Test
     @WithMockUser(value = "admin", authorities = {"ROLE_ADMIN"})
     @DisplayName("удалит комментарий")

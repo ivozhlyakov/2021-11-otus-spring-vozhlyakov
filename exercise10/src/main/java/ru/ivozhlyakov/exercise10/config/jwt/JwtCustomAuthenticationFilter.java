@@ -15,6 +15,7 @@ import ru.ivozhlyakov.exercise10.models.User;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -56,6 +57,11 @@ public class JwtCustomAuthenticationFilter extends UsernamePasswordAuthenticatio
         Map<String, String> map = new HashMap<>();
         map.put("access_token", access_token);
         response.setContentType(APPLICATION_JSON_VALUE);
+        response.addCookie(addCookie(access_token));
         new ObjectMapper().writeValue(response.getOutputStream(), map);
+    }
+
+    private Cookie addCookie(String token) {
+        return new Cookie("Token", token);
     }
 }

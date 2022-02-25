@@ -52,9 +52,4 @@ public class CommentServiceImpl implements CommentService{
         commentRepository.deleteById(id);
     }
 
-    @Transactional
-    @Override
-    public void updateComment(Long id, String comment) {
-        commentRepository.updateCommentById(id, comment);
-    }
 }

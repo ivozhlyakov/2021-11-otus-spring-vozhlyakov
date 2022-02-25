@@ -1,5 +1,6 @@
 package ru.ivozhlyakov.exercise10.service;
 
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ivozhlyakov.exercise10.models.Author;
@@ -46,39 +47,13 @@ public class BookServiceImpl implements BookService{
         repository.deleteById(id);
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public String showTable() {
-        stringTmp = "";
-        repository.findAll().forEach(book -> {
-            List<Author> authors = Optional.ofNullable(book.getAuthors()).orElse(Collections.singletonList(new Author()));
-            List<Genre> genres = Optional.ofNullable(book.getGenres()).orElse(Collections.singletonList(new Genre()));
-
-            addRow("\n"
-                    +"book.id: "+book.getId() + ", "
-                    +"book.name: "+book.getName()+", "
-                    +"book.authors: "+authors
-                    .stream()
-                    .map(Author::getBrief)
-                    .collect(Collectors.toList())+", "
-                    +"book.genres: "+genres
-                    .stream()
-                    .map(Genre::getName)
-                    .collect(Collectors.toList())
-            );
-        });
-
-        return stringTmp;
-    }
-
+    @SneakyThrows
     @Transactional
     @Override
     public void updateNameById(Long id, String name) {
-        repository.updateNameById(id, name);
-    }
-
-    private void addRow(String s) {
-        stringTmp = stringTmp.concat(s);
+        Book book = findById(id).orElseThrow(() -> new Exception("Book no found by id = "+id));
+        book.setName(name);
+        repository.save(book);
     }
 
 }
