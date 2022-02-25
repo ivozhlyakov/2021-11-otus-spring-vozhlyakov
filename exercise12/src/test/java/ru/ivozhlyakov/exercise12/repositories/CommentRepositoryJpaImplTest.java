@@ -118,20 +118,15 @@ class CommentRepositoryJpaImplTest {
     @DisplayName("должен изменить комментарий")
     @Test
     void updateComment() {
-        val comment = new Comment(
-                null,
-                "test6"
-                , new Book("book5"
-                , Collections.singletonList(new Author("author6"))
-                , Collections.singletonList(new Genre("genre6"))
-        )
-        );
+        val commentOld = em.find(Comment.class, 1L);
+        String oldValue = commentOld.getComment();
         val updateComment = "update comment";
-        em.persist(comment);
-        em.detach(comment);
-        repositoryJpa.updateCommentById(comment.getId(), updateComment);
+        em.detach(commentOld);
+        commentOld.setComment(updateComment);
+        repositoryJpa.save(commentOld);
 
-        val expectedComment = em.find(Comment.class, comment.getId());
+        val expectedComment = em.find(Comment.class, commentOld.getId());
+        assertThat(expectedComment.getComment()).isNotEqualTo(oldValue).isEqualTo(updateComment);
         assertThat(expectedComment).isNotNull()
                 .matches(c -> c.getComment().equals(updateComment));
     }

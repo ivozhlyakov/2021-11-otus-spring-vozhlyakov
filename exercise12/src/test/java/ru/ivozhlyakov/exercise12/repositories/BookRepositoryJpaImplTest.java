@@ -92,7 +92,7 @@ class BookRepositoryJpaImplTest {
         String oldName = firstBook.getName();
         em.detach(firstBook);
 
-        repositoryJpa.updateNameById(FIRST_BOOK_ID, "New_Book_Name");
+        repositoryJpa.save(Book.builder().id(FIRST_BOOK_ID).name("New_Book_Name").build());
         val updatedStudent = em.find(Book.class, FIRST_BOOK_ID);
 
         assertThat(updatedStudent.getName()).isNotEqualTo(oldName).isEqualTo("New_Book_Name");

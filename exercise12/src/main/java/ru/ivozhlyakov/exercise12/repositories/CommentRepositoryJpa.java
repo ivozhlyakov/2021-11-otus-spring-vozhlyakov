@@ -11,9 +11,4 @@ import ru.ivozhlyakov.exercise12.domain.Comment;
 @RepositoryRestResource(path = "comments")
 public interface CommentRepositoryJpa extends PagingAndSortingRepository<Comment, Long> {
 
-    @Modifying
-    @Query("update Comment c " +
-            "set c.comment = :value " +
-            "where c.id = :id")
-    void updateCommentById(@Param("id") Long id, @Param("value") String comment);
 }

@@ -1,5 +1,6 @@
 package ru.ivozhlyakov.exercise12.service;
 
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ivozhlyakov.exercise12.domain.Author;
@@ -17,7 +18,6 @@ import java.util.stream.Collectors;
 public class BookServiceImpl implements BookService{
 
     private BookRepositoryJpa repository;
-    private String stringTmp;
 
     public BookServiceImpl(BookRepositoryJpa repository) {
         this.repository = repository;
@@ -47,39 +47,15 @@ public class BookServiceImpl implements BookService{
         repository.deleteById(id);
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public String showTable() {
-        stringTmp = "";
-        repository.findAll().forEach(book -> {
-            List<Author> authors = Optional.ofNullable(book.getAuthors()).orElse(Collections.singletonList(new Author()));
-            List<Genre> genres = Optional.ofNullable(book.getGenres()).orElse(Collections.singletonList(new Genre()));
 
-            addRow("\n"
-                    +"book.id: "+book.getId() + ", "
-                    +"book.name: "+book.getName()+", "
-                    +"book.authors: "+authors
-                    .stream()
-                    .map(Author::getBrief)
-                    .collect(Collectors.toList())+", "
-                    +"book.genres: "+genres
-                    .stream()
-                    .map(Genre::getName)
-                    .collect(Collectors.toList())
-            );
-        });
-
-        return stringTmp;
-    }
-
+    @SneakyThrows
     @Transactional
     @Override
     public void updateNameById(Long id, String name) {
-        repository.updateNameById(id, name);
+        Book book = repository.findById(id).orElseThrow(() -> new Exception("Book no found by id = "+id));
+        book.setName(name);
+        repository.save(book);
     }
 
-    private void addRow(String s) {
-        stringTmp = stringTmp.concat(s);
-    }
 
 }
