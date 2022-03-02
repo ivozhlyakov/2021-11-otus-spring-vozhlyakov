@@ -21,6 +21,7 @@ public class Main {
 
         BookService service = ctx.getBean(BookService.class);
 
+        log.info("-------------------------------- ");
         long l = 1L;
         do {
             log.info(service.getBookById(l).getName());
