@@ -1,0 +1,26 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="2022-02-01--0003-user-data" author="ivozhlyakov">
+        <sql>
+            insert into users(login, password, expired, locked, enabled)
+            values ('admin', '$2a$12$z7JtqNszjz570wG8bLDbAOq.v.6mBU.k5ipsw58rd3N8tIW3tYZoS', false, false, true)
+                 , ('user', '$2a$12$GWClIWiWt9xbQraKQmiWdOq5VakNXhn/zcNjQ40j3x4.0dSr9SrZa', false, false, true);
+
+        </sql>
+    </changeSet>
+
+    <changeSet id="2022-02-01--0003-authorities-data" author="ivozhlyakov">
+        <sql>
+            insert into authorities(id, authority, user_login)
+            values(1,'ROLE_USER','user')
+                , (2,'ROLE_USER','admin')
+                , (3,'ROLE_ADMIN','admin');
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+
