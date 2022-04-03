@@ -1,0 +1,29 @@
+spring:
+  data:
+    rest:
+      base-path: /datarest
+  datasource:
+    url: jdbc:h2:mem:testdb
+    initialization-mode: always
+  liquibase:
+    enabled: true
+
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health,logfile
+
+logging:
+  file:
+    name: log.txt
+  level:
+    root: info
